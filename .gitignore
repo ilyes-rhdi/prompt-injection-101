@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+build/
+.vercel
+.env
+.env*.local
+*.log
+.DS_Store
+
+# Local solution notes - do not publish
+prompts-solution.txt
