@@ -51,6 +51,17 @@ function friendlyError(err) {
         "Gemini rejected the request. Your API key looks invalid or has no access to this model.",
     };
   }
+  if (
+    status === 503 ||
+    status === 500 ||
+    /overloaded|high demand|temporarily unavailable|internal error/i.test(raw)
+  ) {
+    return {
+      status: 503,
+      message:
+        "The model is temporarily unavailable or overloaded. Try again in a moment.",
+    };
+  }
   if (status === 429 || /quota|resource_exhausted/i.test(raw)) {
     return {
       status: 429,
@@ -89,7 +100,10 @@ export async function POST(request) {
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: { retryOptions: { attempts: 1 } },
+    });
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
       contents,

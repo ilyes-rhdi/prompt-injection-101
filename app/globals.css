@@ -273,6 +273,14 @@ input::placeholder {
   animation-delay: 0.4s;
 }
 
+.notice {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  border-left: 3px solid var(--border-strong);
+  padding-left: 12px;
+}
+
 .chat-actions {
   margin-top: 14px;
   display: flex;
