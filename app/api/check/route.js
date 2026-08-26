@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const FLAG = "FLAG{basic_prompt_injection}";
+const FLAG = "Mchal{y0u_Byb4ss3d_M3}";
 
 export async function POST(request) {
   let body;

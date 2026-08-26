@@ -270,7 +270,7 @@ export default function Challenge({ model }) {
                 type="text"
                 value={flagDraft}
                 onChange={(e) => setFlagDraft(e.target.value)}
-                placeholder="FLAG{...}"
+                placeholder="Mchal{...}"
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
