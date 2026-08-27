@@ -107,7 +107,9 @@ prompt-injection-101/
 - There is **no keyword blacklist and no artificial simulation**: if the model
   leaks the flag, it is because Gemini was genuinely convinced by the player's
   prompt.
-- No conversation history, key, or message is persisted anywhere.
+- A short recent conversation history is kept only in the browser's React state
+  during the active session and sent with each chat request. Nothing is
+  persisted on the server.
 
 ## Challenge concept
 
