@@ -100,17 +100,20 @@ L'ancienne version mélangeait secret, règles et conversation dans un unique
 message utilisateur. Elle autorisait aussi la divulgation sur une simple
 déclaration d'identité, avec très peu de matière à explorer.
 
-La nouvelle version propose une enquête sur une incohérence entre deux règles
-documentaires. Le chemin prévu nécessite de découvrir des informations publiques
-et de comprendre ce que fait une procédure. Il ne dépend pas d'une phrase magique.
-Une demande directe du flag ou une identité revendiquée doit être refusée.
+La nouvelle version propose une enquête sur une procédure administrative et une
+incohérence documentaire. Le chemin prévu nécessite de découvrir des informations
+publiques, de jouer un rôle interne crédible et de comprendre ce que fait une
+procédure. Le modèle doit juger le contexte de la demande ; une identité affirmée
+peut être acceptée, questionnée ou refusée selon la conversation.
 
-La procédure héritée est volontairement permissive. La résoudre démontre une
-erreur de conception des règles de confidentialité, **pas nécessairement une
-injection réussie contre le prompt système**. La séparation des rôles ne corrige
-pas, à elle seule, une règle métier qui autorise une divulgation. Un véritable
-secret doit rester hors du contexte du modèle, avec des contrôles d'accès dans
-le code. Le débrief explique cette distinction sans présumer du chemin du joueur.
+La procédure d'administration est volontairement ambiguë sur la manière dont un
+demandeur établit son rôle : c'est au modèle d'interpréter la conversation. La
+résoudre démontre un risque de confiance accordée à une identité déclarée, **pas
+nécessairement une injection réussie contre le prompt système**. La séparation
+des rôles ne corrige pas, à elle seule, une règle métier qui autorise une
+divulgation. Un véritable secret doit rester hors du contexte du modèle, avec
+des contrôles d'accès dans le code. Le débrief explique cette distinction sans
+présumer du chemin du joueur.
 
 Le backend n'effectue pas de recherche de mots-clés pour décider de divulguer
 le flag, ne simule pas la réponse de MNÉMOS et ne déclenche pas automatiquement
