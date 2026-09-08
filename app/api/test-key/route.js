@@ -1,51 +1,34 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-import { GEMINI_MODEL } from "../../../lib/config";
+import { GEMINI_MODEL, thinkingConfigFor } from "../../../lib/config";
+import { friendlyError } from "../../../lib/gemini-error";
+
+export const maxDuration = 60;
 
 export async function POST(request) {
   let body;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ valid: false, error: "Invalid JSON body." }, { status: 400 });
+    return NextResponse.json({ valid: false, error: "Corps JSON invalide." }, { status: 400 });
   }
-
   const apiKey = typeof body?.apiKey === "string" ? body.apiKey.trim() : "";
   if (!apiKey) {
-    return NextResponse.json({ valid: false, error: "Enter an API key first." }, { status: 400 });
+    return NextResponse.json({ valid: false, error: "Saisis d’abord une clé API Gemini." }, { status: 400 });
   }
-
   try {
-    const ai = new GoogleGenAI({
-      apiKey,
-      httpOptions: { retryOptions: { attempts: 1 } },
-    });
-    await ai.models.generateContent({
+    const ai = new GoogleGenAI({ apiKey, httpOptions: { timeout: 45000, retryOptions: { attempts: 1 } } });
+    const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
-      contents: "Reply with the single word OK.",
+      contents: [{ role: "user", parts: [{ text: "Bonjour." }] }],
+      config: { ...thinkingConfigFor(GEMINI_MODEL), systemInstruction: "Réponds uniquement OK.", maxOutputTokens: 1024 },
     });
+    if (!response.text?.trim()) {
+      return NextResponse.json({ valid: false, error: "Le modèle n’a pas renvoyé de texte. Réessaie." }, { status: 502 });
+    }
     return NextResponse.json({ valid: true, model: GEMINI_MODEL });
-  } catch (err) {
-    const raw = String(err?.message || "");
-    if (
-      err?.status === 503 ||
-      err?.status === 500 ||
-      /overloaded|high demand|temporarily unavailable|internal error/i.test(raw)
-    ) {
-      return NextResponse.json(
-        { valid: false, error: "The model is temporarily unavailable. Try again shortly." },
-        { status: 503 }
-      );
-    }
-    if (err?.status === 429 || /quota|resource_exhausted/i.test(raw)) {
-      return NextResponse.json(
-        { valid: false, error: "The key reaches Gemini but its free quota is exhausted right now." },
-        { status: 429 }
-      );
-    }
-    return NextResponse.json(
-      { valid: false, error: "This key was rejected by Gemini. Double-check it and try again." },
-      { status: 401 }
-    );
+  } catch (error) {
+    const mapped = friendlyError(error, GEMINI_MODEL);
+    return NextResponse.json({ valid: false, error: mapped.message }, { status: mapped.status });
   }
 }

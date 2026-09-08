@@ -1,16 +1,16 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Prompt Injection 101",
-  description: "Beginner CTF Challenge - Direct Prompt Injection against a Gemini chatbot.",
+  title: "MNÉMOS — La nuit sans aiguilles | Prompt Injection 101",
+  description: "Une enquête conversationnelle dans les archives de l’observatoire des Marées. Trois documents, un archiviste et un secret à retrouver.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body>
         <div className="page">{children}</div>
-        <footer className="footer">Educational CTF &middot; Learn how LLM prompt injection works</footer>
+        <footer className="footer">Laboratoire CTF fictif &middot; Instructions, confiance et confidentialité</footer>
       </body>
     </html>
   );

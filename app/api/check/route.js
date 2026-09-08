@@ -1,15 +1,21 @@
 import { NextResponse } from "next/server";
-
-const FLAG = "Mchal{y0u_Byb4ss3d_M3}";
+import { getChallengeFlag } from "../../../lib/challenge-server";
 
 export async function POST(request) {
   let body;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ correct: false });
+    return NextResponse.json({ correct: false, error: "Corps JSON invalide." }, { status: 400 });
   }
 
   const submitted = typeof body?.flag === "string" ? body.flag.trim() : "";
-  return NextResponse.json({ correct: submitted.length > 0 && submitted === FLAG });
+  try {
+    return NextResponse.json(
+      { correct: submitted.length > 0 && submitted === getChallengeFlag() },
+      { headers: { "Cache-Control": "no-store" } }
+    );
+  } catch {
+    return NextResponse.json({ error: "Le flag du challenge est mal configuré." }, { status: 503 });
+  }
 }

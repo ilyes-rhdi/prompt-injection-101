@@ -2,11 +2,13 @@
   "name": "prompt-injection-101",
   "version": "1.0.0",
   "private": true,
-  "description": "Beginner CTF challenge: direct prompt injection against a Gemini-powered chatbot.",
+  "type": "module",
+  "description": "MNÉMOS : enquête conversationnelle pédagogique sur les instructions et la confidentialité des LLM.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.19.0",
